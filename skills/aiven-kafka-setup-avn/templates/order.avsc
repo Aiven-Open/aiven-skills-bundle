@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "com.aiven.demo",
+  "fields": [
+    {"name": "id", "type": "int"},
+    {"name": "user_id", "type": "int"},
+    {"name": "product", "type": "string"},
+    {"name": "price", "type": "double"}
+  ]
+}
