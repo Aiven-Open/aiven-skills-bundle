@@ -1,0 +1,22 @@
+# Ignore generated files from running skills locally
+env.sh
+cert/
+orders.csv
+orders_completed.csv
+
+# Ignore copied folders if run in the repo root
+/templates/
+/scripts/
+
+# Java build artifacts
+target/
+*.jar
+dependency-reduced-pom.xml
+.idea/
+*.iml
+
+# Python artifacts
+__pycache__/
+*.pyc
+.venv/
+venv/
