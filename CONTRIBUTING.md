@@ -14,11 +14,12 @@ this guide before opening a pull request.
 1. [Repository Layout](#repository-layout)
 2. [Skill Structure](#skill-structure)
 3. [SKILL.md Requirements](#skillmd-requirements)
-4. [Quality Guidelines](#quality-guidelines)
-5. [Testing & Verification](#testing--verification)
-6. [Opening a Pull Request](#opening-a-pull-request)
-7. [Commit Messages](#commit-messages)
-8. [Security](#security)
+4. [Versioning](#versioning)
+5. [Quality Guidelines](#quality-guidelines)
+6. [Testing & Verification](#testing--verification)
+7. [Opening a Pull Request](#opening-a-pull-request)
+8. [Commit Messages](#commit-messages)
+9. [Security](#security)
 
 ---
 
@@ -146,6 +147,50 @@ Document these explicitly in `SKILL.md` when relevant:
   `env.sh`). Verify credentials by length only.
 - **Always run end-to-end.** A skill that creates a service but never runs a working
   example is incomplete. Every skill must produce a verifiable, runnable result.
+
+---
+
+## Versioning
+
+Each skill is versioned **independently** from the bundle itself. Bumping one skill's
+version does not require bumping others.
+
+### Where versions live
+
+Versions are recorded in two places — both must be updated together:
+
+1. **`SKILL.md` front-matter** — the `version` field:
+
+   ```yaml
+   ---
+   name: aiven-kafka-setup-avn
+   version: "1.1.0"
+   ---
+   ```
+
+2. **`VERSIONS.md`** in the repository root — the central version table and changelog:
+
+   ```markdown
+   | Skill                 | Version | Last Updated |
+   |-----------------------|---------|--------------|
+   | aiven-kafka-setup-avn | 1.1.0   | 2026-04-10   |
+
+   ### 2026-04-10
+   - `aiven-kafka-setup-avn` 1.1.0: added Python template support.
+   ```
+
+### When to bump the version
+
+Follow [Semantic Versioning](https://semver.org/):
+
+| Change | Version bump |
+|---|---|
+| New capability, new template language, new mandatory step | **minor** (`0.1` → `0.2`, `1.0` → `1.1`) |
+| Breaking change (removed step, renamed env var, changed script interface) | **major** (`1.x` → `2.0`) |
+| Bug fix, wording clarification, doc-only update | **patch** (`1.0.0` → `1.0.1`) |
+
+> A PR that changes skill behaviour **without** updating both `SKILL.md` and
+> `VERSIONS.md` will be asked to add the version bump before merging.
 
 ---
 

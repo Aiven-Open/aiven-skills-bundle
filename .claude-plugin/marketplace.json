@@ -1,0 +1,30 @@
+{
+  "name": "aiven-skills-bundle",
+  "owner": {
+    "name": "Aiven",
+    "email": "opensource@aiven.io"
+  },
+  "metadata": {
+    "description": "Official Aiven skills for AI agents — manage Aiven-managed data services directly from Cursor, Claude CLI, or any agent that supports the Agent Skills spec.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "aiven-skills-bundle",
+      "source": {
+        "source": "github",
+        "repo": "Aiven-Open/aiven-skills-bundle"
+      },
+      "description": "AI agent skills for managing Aiven-managed data services directly from Cursor, Claude CLI, or any agent that supports the Agent Skills spec.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Aiven"
+      },
+      "homepage": "https://github.com/Aiven-Open/aiven-skills-bundle",
+      "repository": "https://github.com/Aiven-Open/aiven-skills-bundle",
+      "license": "Apache-2.0",
+      "keywords": ["aiven", "kafka", "data-services", "devops", "cloud", "python", "java"],
+      "category": "devops"
+    }
+  ]
+}
