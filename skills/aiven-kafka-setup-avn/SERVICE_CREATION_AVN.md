@@ -10,7 +10,11 @@ creation, users, ACLs, schema registration, env-var extraction, and verification
 
 ## 1. Choose a Region
 
-**ALWAYS** ask the user which region they want using the AskQuestion tool. You **MUST** use the exact `CLOUD_NAME` from the table below:
+If the user already provided a `CLOUD_NAME` in their request, use it directly and skip
+the question. Otherwise, ask which region they want using the **AskQuestion tool** before
+proceeding.
+
+You **MUST** use the exact `CLOUD_NAME` from the table below:
 
 | Region | CLOUD_NAME |
 |--------|------------|
@@ -20,7 +24,9 @@ creation, users, ACLs, schema registration, env-var extraction, and verification
 | Europe | `do-fra` |
 | United States | `do-nyc` |
 
-**CRITICAL**: Do NOT use any other cloud names or regions. If the user asks for a region not in this list, inform them that only these specific regions are supported by this skill's automated setup.
+**CRITICAL**: Do NOT use any other cloud names or regions. If the user asks for a region
+not in this list, inform them that only these specific regions are supported by this
+skill's automated setup.
 
 ---
 

@@ -53,6 +53,82 @@ end-to-end, prompting you only when a decision is needed.
 
 ---
 
+## Installation
+
+---
+
+### Option 1: CLI Install (Recommended)
+
+Use [npx skills](https://github.com/agentskillsio/skills) to install skills directly:
+
+```bash
+# Install all skills
+npx skills add Aiven-Open/aiven-skills-bundle
+
+# Install a specific skill
+npx skills add Aiven-Open/aiven-skills-bundle --skill aiven-kafka-setup-avn
+
+# List available skills
+npx skills add Aiven-Open/aiven-skills-bundle --list
+```
+
+This automatically installs to your `.agents/skills/` directory (and symlinks into
+`.claude/skills/` for Claude Code compatibility).
+
+---
+
+### Option 2: Clone and Copy
+
+Clone the repository and copy the `skills/` folder into your project. Works with any agent tool, no extra tooling required:
+
+```bash
+git clone https://github.com/Aiven-Open/aiven-skills-bundle.git
+cp -r aiven-skills-bundle/skills/* .agents/skills/
+```
+
+Your agent will discover skills automatically from `.agents/skills/`.
+
+---
+
+### Option 3: Git Submodule
+
+Add this repository as a submodule so you can pull updates with a single command:
+
+```bash
+git submodule add https://github.com/Aiven-Open/aiven-skills-bundle.git .agents/aiven-skills-bundle
+```
+
+Reference skills from `.agents/aiven-skills-bundle/skills/`.
+
+To update to the latest version later:
+
+```bash
+git submodule update --remote .agents/aiven-skills-bundle
+```
+
+---
+
+### Option 4: Claude Code Plugin
+
+Install via Claude Code's built-in plugin system (requires Claude Code). This repository
+acts as both the marketplace and the plugin, so add it once and install from it:
+
+```bash
+# 1. Register this repository as a marketplace
+/plugin marketplace add Aiven-Open/aiven-skills-bundle
+
+# 2. Install the plugin (user scope — available across all projects)
+claude plugin install aiven-skills-bundle@aiven-skills-bundle --scope user
+
+# Or install to project scope (shared with your team via version control)
+claude plugin install aiven-skills-bundle@aiven-skills-bundle --scope project
+```
+
+The plugin manifest is at [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) and
+the marketplace catalog is at [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+
+---
+
 ## Contributing
 
 Want to add a new skill or improve an existing one? See [CONTRIBUTING.md](CONTRIBUTING.md)
