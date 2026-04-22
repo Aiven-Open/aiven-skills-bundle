@@ -23,7 +23,28 @@ KAFKA_VERSION="${4:-4.1}"
 TOPIC="orders"
 
 echo "==> Checking avn login..."
-avn user info || { echo "ERROR: Not logged in. Run: avn user login <email>"; exit 1; }
+set +e
+AVN_USER_INFO_OUTPUT=$(avn user info 2>&1)
+AVN_USER_INFO_EXIT=$?
+set -e
+
+if [ "$AVN_USER_INFO_EXIT" -ne 0 ]; then
+  # Reason: `avn user info` uses different error messages for expired tokens
+  # and users who have not authenticated yet, so surface the right next step.
+  case "$AVN_USER_INFO_OUTPUT" in
+    *"Expired db token"*)
+      echo "ERROR: Aiven login token expired. Run: avn user login <email>" >&2
+      ;;
+    *"ERROR: Not logged in"*|*"UserError: not authenticated"*)
+      echo "ERROR: Not authenticated. Run: avn user login <email> or, if you are a new user, create an account via https://console.aiven.io/login" >&2
+      ;;
+    *)
+      printf '%s\n' "$AVN_USER_INFO_OUTPUT" >&2
+      echo "ERROR: Failed to verify avn login. Run: avn user login <email> if needed." >&2
+      ;;
+  esac
+  exit 1
+fi
 
 echo "==> Creating Kafka service: $KAFKA_SERVICE (cloud=$CLOUD_NAME, plan=$PLAN, kafka=$KAFKA_VERSION)"
 if ! avn service get "$KAFKA_SERVICE" >/dev/null 2>&1; then
@@ -39,6 +60,10 @@ fi
 
 echo "==> Waiting for service to be RUNNING..."
 avn service wait "$KAFKA_SERVICE"
+
+echo "==> Tagging service..."
+# Reason: `avn` expects tags in `key=value` form rather than a bare label.
+avn service tags update "$KAFKA_SERVICE" --add-tag AI-skill-generated=true
 
 echo "==> Downloading certificates..."
 mkdir -p cert
