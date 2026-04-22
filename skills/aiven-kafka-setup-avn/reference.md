@@ -45,6 +45,9 @@ avn service create <SERVICE_NAME> \
 # Wait until service is RUNNING
 avn service wait <SERVICE_NAME>
 
+# Tag the service for AI-generated demo environments
+avn service tags update <SERVICE_NAME> --add-tag AI-skill-generated=true
+
 # Get service details as JSON (preferred — use jq to extract fields)
 avn service get <SERVICE_NAME> --json | jq '{service_uri, service_uri_params, components: [.components[] | {component, route, host, port}]}'
 
@@ -150,7 +153,8 @@ avn service schema get <SERVICE_NAME> --subject <SUBJECT> --version latest
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| `avn user info` fails | Not logged in | Run `avn user login <email>` |
+| `avn user info` fails with `Expired db token` | Login token expired | Run `avn user login <email>` again |
+| `avn user info` fails with `ERROR: Not logged in` or `UserError: not authenticated` | Not authenticated yet | Run `avn user login <email>` or create an account via `https://console.aiven.io/login` |
 | Service stuck in POWERING_OFF | Ongoing operations | Wait or contact Aiven support |
 | `SASL authentication failed` | Wrong password or user not created | Re-run `avn service user-password-reset` and re-export env var |
 | `SSL: CERTIFICATE_VERIFY_FAILED` | Missing or wrong CA cert | Re-download certs: `avn service user-creds-download` |

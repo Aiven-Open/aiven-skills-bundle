@@ -8,7 +8,7 @@ description: >
   no need to specify it explicitly. This skill covers the avn CLI workflow; other skills
   cover Terraform, MCP, and REST API approaches. Use when the user mentions Kafka —
   e.g. "create a Kafka cluster", "set up Kafka", "start a Kafka", or "start a Kafka service".
-version: "0.1"
+version: "0.1.1"
 license: Apache-2.0
 allowed-tools: Bash(avn:*) Bash(jq:*) Bash(curl:*) Read
 ---
@@ -36,12 +36,21 @@ Run the following to check if the user is logged in:
 avn user info
 ```
 
-**If the command fails**, instruct the user:
+**If the command fails**, inspect the error and guide the user accordingly:
 
 ```
-You are not logged in to the Aiven CLI. Please run:
+If the error contains "Expired db token":
 
+  Your Aiven login token expired. Please run:
   avn user login <your-email>
+
+If the error contains "ERROR: Not logged in" or "UserError: not authenticated":
+
+  You are not logged in to the Aiven CLI. Please run:
+  avn user login <your-email>
+
+  If you are a new user, create an account via:
+  https://console.aiven.io/login
 
 Then confirm when you are logged in.
 ```
@@ -68,8 +77,9 @@ Follow **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)** sections 1–4 in 
 
 1. **Choose a region** — ask the user with AskQuestion, mapping their choice to the **EXACT** `CLOUD_NAME` from the table in **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)**.
 2. **Choose a plan** — default `startup-4`; **never** use `free-0` or `startup-2`.
-3. **Run the setup script** — a single command creates the service, users, ACLs,
-   schema, extracts all connection details, and writes them to `env.sh`.
+3. **Run the setup script** — a single command creates the service, tags it with
+   `AI-skill-generated=true`, creates users and ACLs, registers the schema,
+   extracts all connection details, and writes them to `env.sh`.
 4. **Source `env.sh`** — loads `KAFKA_HOST`, `KAFKA_PORT`, `SCHEMA_REGISTRY_URL`,
    `AVNADMIN_PASS`, `PRODUCER_PASSWORD`, `CONSUMER_PASSWORD` into the shell.
 
