@@ -51,6 +51,10 @@ end-to-end, prompting you only when a decision is needed.
 |------------|----------------|-------------|
 | Aiven Kafka Setup (avn CLI) | `aiven-kafka-setup-avn` | Create and configure an Apache Kafka cluster using the `avn` CLI tool, including SASL_SSL auth, Schema Registry, and a working producer-consumer example. |
 
+## Prerequisites
+
+The **Aiven Kafka Setup (avn CLI)** skill requires [aiven-client (`avn`)](https://github.com/aiven/aiven-client). See the repository for installation instructions.
+
 ---
 
 ## Installation
