@@ -65,6 +65,16 @@ Verify the following are installed:
 - For Java: `java` (17+), `mvn`
 - For Python: `python3` (3.9+), `pip`
 
+Before creating a service, ask the customer to confirm they have enough credits (they can check with):
+
+```bash
+avn project details --json
+```
+
+Use the AskQuestion tool to collect this confirmation without interrupting the flow.
+
+**AI Agent MUST NOT check credits itself.** Only the customer should run the credit-check command and confirm.
+
 **Missing Requirements Policy:**
 - If a library or CLI tool (like `avn`) is missing, advise the user on how to install it (e.g., `python3 -m pip install aiven-client` for `avn`). However, check first if `python3` is available before suggesting a `pip` command.
 - If a core language runtime (`python3` or `java`) is requested but missing, **interrupt the flow immediately**. Do NOT advise the user on how to install programming languages.
@@ -75,12 +85,17 @@ Verify the following are installed:
 
 Follow **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)** sections 1–4 in order:
 
-1. **Choose a region** — ask the user with AskQuestion, mapping their choice to the **EXACT** `CLOUD_NAME` from the table in **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)**.
-2. **Choose a plan** — default `startup-4`; **never** use `free-0` or `startup-2`.
-3. **Run the setup script** — a single command creates the service, tags it with
+1. **Choose a service name (if missing)** — if the customer did not provide a service name, use AskQuestion with:
+   - `aiven-kafka-service-test`
+   - `Other` (if selected, ask the customer to provide their custom service name)
+2. **Choose a region** — ask the user with AskQuestion, mapping their choice to the **EXACT** `CLOUD_NAME` from the table in **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)**.
+3. **Choose a plan** — default `startup-4`; **never** use `free-0` or `startup-2`.
+4. **Run the setup script** — a single command creates the service, tags it with
    `AI-skill-generated=true`, creates users and ACLs, registers the schema,
    extracts all connection details, and writes them to `env.sh`.
-4. **Source `env.sh`** — loads `KAFKA_HOST`, `KAFKA_PORT`, `SCHEMA_REGISTRY_URL`,
+   - If service creation returns `Payment method is not set and there is not enough credits for the service`,
+     the script fails fast and the flow must stop immediately.
+5. **Source `env.sh`** — loads `KAFKA_HOST`, `KAFKA_PORT`, `SCHEMA_REGISTRY_URL`,
    `AVNADMIN_PASS`, `PRODUCER_PASSWORD`, `CONSUMER_PASSWORD` into the shell.
 
 ```bash

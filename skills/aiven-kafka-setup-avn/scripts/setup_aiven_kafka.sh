@@ -21,6 +21,7 @@ CLOUD_NAME="${2:?Usage: $0 <service-name> <cloud-name> [plan] [kafka-version]}"
 PLAN="${3:-startup-4}"
 KAFKA_VERSION="${4:-4.1}"
 TOPIC="orders"
+BILLING_ERROR_MSG="Payment method is not set and there is not enough credits for the service"
 
 echo "==> Checking avn login..."
 set +e
@@ -48,14 +49,27 @@ fi
 
 echo "==> Creating Kafka service: $KAFKA_SERVICE (cloud=$CLOUD_NAME, plan=$PLAN, kafka=$KAFKA_VERSION)"
 if ! avn service get "$KAFKA_SERVICE" >/dev/null 2>&1; then
-  avn service create "$KAFKA_SERVICE" \
-    --service-type kafka \
-    --cloud "$CLOUD_NAME" \
-    --plan "$PLAN" \
-    --no-project-vpc \
-    -c kafka_version="$KAFKA_VERSION" \
-    -c kafka_authentication_methods.sasl=true \
-    -c schema_registry=true
+  set +e
+  SERVICE_CREATE_OUTPUT=$(
+    avn service create "$KAFKA_SERVICE" \
+      --service-type kafka \
+      --cloud "$CLOUD_NAME" \
+      --plan "$PLAN" \
+      --no-project-vpc \
+      -c kafka_version="$KAFKA_VERSION" \
+      -c kafka_authentication_methods.sasl=true \
+      -c schema_registry=true 2>&1
+  )
+  SERVICE_CREATE_EXIT=$?
+  set -e
+
+  if [ "$SERVICE_CREATE_EXIT" -ne 0 ]; then
+    printf '%s\n' "$SERVICE_CREATE_OUTPUT" >&2
+    if [[ "$SERVICE_CREATE_OUTPUT" == *"$BILLING_ERROR_MSG"* ]]; then
+      echo "ERROR: Service creation stopped immediately due to insufficient credits and missing payment method." >&2
+    fi
+    exit 1
+  fi
 fi
 
 echo "==> Waiting for service to be RUNNING..."
