@@ -8,7 +8,7 @@ description: >
   no need to specify it explicitly. This skill covers the avn CLI workflow; other skills
   cover Terraform, MCP, and REST API approaches. Use when the user mentions Kafka —
   e.g. "create a Kafka cluster", "set up Kafka", "start a Kafka", or "start a Kafka service".
-version: "0.1.1"
+version: "0.1.2"
 license: Apache-2.0
 allowed-tools: Bash(avn:*) Bash(jq:*) Bash(curl:*) Read
 ---
