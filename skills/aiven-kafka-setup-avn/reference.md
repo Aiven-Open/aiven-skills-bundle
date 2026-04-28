@@ -36,7 +36,7 @@ avn service plans --service-type kafka --cloud <CLOUD_NAME>
 avn service create <SERVICE_NAME> \
   --service-type kafka \
   --cloud <CLOUD_NAME> \
-  --plan startup-4 \
+  --plan developer-2-1d \
   --no-project-vpc \
   --kafka-version 4.1 \
   -c kafka_authentication_methods.sasl=true \

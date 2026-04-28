@@ -89,7 +89,7 @@ Follow **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)** sections 1–4 in 
    - `aiven-kafka-service-test`
    - `Other` (if selected, ask the customer to provide their custom service name)
 2. **Choose a region** — ask the user with AskQuestion, mapping their choice to the **EXACT** `CLOUD_NAME` from the table in **[SERVICE_CREATION_AVN.md](SERVICE_CREATION_AVN.md)**.
-3. **Choose a plan** — default `startup-4`; **never** use `free-0` or `startup-2`.
+3. **Choose a plan** — default `developer-2-1d`; **never** use `free-0` or `startup-2`.
 4. **Run the setup script** — a single command creates the service, tags it with
    `AI-skill-generated=true`, creates users and ACLs, registers the schema,
    extracts all connection details, and writes them to `env.sh`.

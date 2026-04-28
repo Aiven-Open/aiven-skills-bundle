@@ -18,7 +18,7 @@ set -euo pipefail
 
 KAFKA_SERVICE="${1:?Usage: $0 <service-name> <cloud-name> [plan] [kafka-version]}"
 CLOUD_NAME="${2:?Usage: $0 <service-name> <cloud-name> [plan] [kafka-version]}"
-PLAN="${3:-startup-4}"
+PLAN="${3:-developer-2-1d}"
 KAFKA_VERSION="${4:-4.1}"
 TOPIC="orders"
 BILLING_ERROR_MSG="Payment method is not set and there is not enough credits for the service"
