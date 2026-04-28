@@ -43,8 +43,8 @@ skill's automated setup.
 
 ### 2.2 Default plan selection
 
-- If the user asks for the **cheapest** plan: select `startup-4` (the cheapest plan that supports Schema Registry and SASL).
-- If the user does **not** specify a plan: default to `startup-4`.
+- If the user asks for the **cheapest** plan: select `developer-2-1d` (the cheapest plan that supports Schema Registry and SASL).
+- If the user does **not** specify a plan: default to `developer-2-1d`.
 - If the user explicitly names a valid plan (e.g. `business-4`): use it.
 - **Always confirm** the selected plan and its hourly cost with the user before creating the service.
 
@@ -67,7 +67,7 @@ bash scripts/setup_aiven_kafka.sh <service-name> <CLOUD_NAME> <plan> <kafka-vers
 Example:
 
 ```bash
-bash scripts/setup_aiven_kafka.sh my-kafka do-fra startup-4 4.1
+bash scripts/setup_aiven_kafka.sh my-kafka do-fra developer-2-1d 4.1
 ```
 
 **ALWAYS** use the latest Kafka version. As of 2026-03, the latest is **4.1**.
