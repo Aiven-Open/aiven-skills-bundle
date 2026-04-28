@@ -106,9 +106,15 @@ fi
 
 echo "==> Creating topic: $TOPIC"
 if ! avn service topic-get "$KAFKA_SERVICE" "$TOPIC" >/dev/null 2>&1; then
+  # Reason: Developer plans only support a replication factor of 1.
+  if [[ "$PLAN" == "developer-"* ]]; then
+    REPLICATION_FACTOR=1
+  else
+    REPLICATION_FACTOR=2
+  fi
   avn service topic-create "$KAFKA_SERVICE" "$TOPIC" \
     --partitions 3 \
-    --replication 2
+    --replication "$REPLICATION_FACTOR"
 fi
 
 echo "==> Setting Kafka ACLs..."
