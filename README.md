@@ -63,7 +63,7 @@ The **Aiven Kafka Setup (avn CLI)** skill requires [aiven-client (`avn`)](https:
 
 ### Option 1: CLI Install (Recommended)
 
-Use [npx skills](https://github.com/agentskillsio/skills) to install skills directly:
+Use `npx skills` to install skills directly:
 
 ```bash
 # Install all skills
