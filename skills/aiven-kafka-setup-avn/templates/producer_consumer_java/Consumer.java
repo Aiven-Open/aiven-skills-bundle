@@ -37,6 +37,7 @@ import org.apache.kafka.clients.consumer.CommitFailedException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.errors.RetriableException;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -105,6 +106,10 @@ public final class Consumer {
           // Tune max.poll.interval.ms or reduce per-poll work to fix.
           logger.warn("Offset commit failed — processing too slow, retrying", e);
           continue;
+        } catch (RetriableException e) {
+          // Transient broker/network issue; continue polling and retry on next loop iteration.
+          logger.warn("Retriable Kafka error while polling — retrying", e);
+          continue;
         }
         if (received >= EXPECTED_RECORDS) {
           break;
@@ -115,9 +120,6 @@ public final class Consumer {
     } catch (SerializationException e) {
       // Fatal: schema mismatch between producer and consumer. Verify schema in the registry.
       logger.error("Deserialization failed — check schema compatibility", e);
-      throw e;
-    } catch (Exception e) {
-      logger.error("Unexpected error in consumer", e);
       throw e;
     }
   }
