@@ -49,11 +49,14 @@ end-to-end, prompting you only when a decision is needed.
 
 | Skill Name | Trigger phrase | Description |
 |------------|----------------|-------------|
-| Aiven Kafka Setup (avn CLI) | `aiven-kafka-setup-avn` | Create and configure an Apache Kafka cluster using the `avn` CLI tool, including SASL_SSL auth, Schema Registry, and a working producer-consumer example. |
+| Aiven Kafka Setup (avn CLI) | `create an end-to-end working kafka example` | Create and configure an Apache Kafka cluster using the `avn` CLI tool, including SASL_SSL auth, Schema Registry, and a working producer-consumer example. |
+| Aiven Kafka Share Groups | `Please, create a share group example for <SERVICE_NAME_IN_AIVEN>` | Build and run a Java Share Group consumer demo (KIP-932) against an existing Aiven Kafka 4.2 service using `KafkaShareConsumer` over SSL/mTLS. |
 
 ## Prerequisites
 
 The **Aiven Kafka Setup (avn CLI)** skill requires [aiven-client (`avn`)](https://github.com/aiven/aiven-client). See the repository for installation instructions.
+
+The **Aiven Kafka Share Groups** skill requires an existing Aiven Kafka 4.2 service and Java 17+ with Maven. The service name is passed directly in the trigger phrase.
 
 ---
 
